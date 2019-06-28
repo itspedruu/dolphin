@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>src/structures/Engine.js - Documentation</title>
+    <title>Engine - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,41 +29,185 @@
 
 <div id="main">
     
-    <h1 class="page-title">src/structures/Engine.js</h1>
+    <h1 class="page-title">Engine</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const DEFAULT = require('../../default.json');
+        <h2>
+        Engine
+        </h2>
+        
+            <div class="class-description">Represents a Dolphin Engine</div>
+        
+    
+</header>
 
-/**
- * Represents a Dolphin Engine
- * @class
- */
-class Engine {
-    /**
-     * @param {EngineOptions} options Options for a Dolphin Engine
-     */
-    constructor(options = DEFAULT.engineOptions) {
-        this.options = options;
-    }
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-    execute(client, ...args) {
-        this.client = client;
-        if (!this.options.timeout) return this.run(...args);
+    
+    <h2>Constructor</h2>
+    
 
-        setInterval(() => this.run(...args), this.options.timeout * 60000);
-    }
-}
+    <h4 class="name" id="Engine"><span class="type-signature"></span>new Engine<span class="signature">(options)</span><span class="type-signature"></span></h4>
 
-module.exports = Engine;</code></pre>
-        </article>
-    </section>
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_structures_Engine.js.html">src/structures/Engine.js</a>, <a href="src_structures_Engine.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="global.html#EngineOptions">EngineOptions</a></code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                Options for a Dolphin Engine
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
