@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/structures/Command.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Client.html">Client</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Client.html#addFeaturesToMessage">addFeaturesToMessage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Client.html#executeEngine">executeEngine</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Command.html">Command</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#getMentioned">getMentioned</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#hasOption">hasOption</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#parseResponse">parseResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#removeOption">removeOption</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports.html">exports</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/structures/Command.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const {Confirmation, Pagination, Menu} = require('discord-interface');
+const {RichEmbed} = require('discord.js');
+
+/**
+ * Represents a Dolphin Command
+ * @class
+ */
+class Command {
+    /**
+     * @param {CommandOptions} options Options for the Command
+     */
+    constructor(options) {
+        this.options = options;
+    }
+
+    execute(options) {
+        let keys = Object.keys(options);
+        let values = Object.values(options);
+    
+        for (let index = 0; index &lt; keys.length; index++) this[keys[index]] = values[index];
+        this.run();
+    }
+
+    /**
+     * Searchs for a user mentioned either by it's id, username or mention
+     * @param {?boolean} member Whether to return the discord.member object
+     * @returns {User|Member}
+     */
+    getMentioned(member = false) {
+        let searchForUser = global || !member || this.message.dmVersion;
+
+        let name = this.args[0] ? this.args.join(' ').toLowerCase() : undefined;
+        let result = this.message.dmVersion ? null : (member ? this.message.mentions.members : this.message.mentions.users).first() || 
+            (searchForUser ? this.client.users : this.message.guild.members).get(this.args[0]) || 
+            ((searchForUser ? this.client.users : this.message.guild.members).find(member => (searchForUser ? member : member.user).username.toLowerCase() == name));
+
+        return result;
+    }
+
+    /**
+     * Searchs for a option in the command arguments. Example: --skip
+     * @param {string} option The name of the option
+     * @returns {boolean}
+     */
+    hasOption(option) {
+        return this.args.includes(`--${option}`);
+    }
+
+    /**
+     * Removes a option from the command arguments
+     * @param {string} option The name of the option
+     */
+    removeOption(option) {
+        if (!this.hasOption(option)) return;
+
+        let optionIndex = this.args.findIndex(argument => `--${option}` == argument);
+        this.args.splice(optionIndex, 1);
+    }
+
+    /**
+     * Collects a response
+     * @param {Message} message The discord.js message object
+     * @param {User} user The discord.js user object to collect the response
+     * @param {string} text The description text
+     * @param {number} time The time until the collectors response
+     * @param {?boolean} justContent Whether to return the message content or the message object
+     * @returns {string|Message}
+     */
+    parseResponse(message, user, text, time, justContent = true) {
+        return new Promise(async (res) => {
+            let msg = text ? await message.channel.send(new RichEmbed().setDescription(text).setTimestamp().setColor(this.client.config.mainColor).setFooter(user.username, user.avatarURL)) : null;
+    
+            let filter = (msg) => msg.author.id == user.id;
+            this.responseCollector = message.channel.createMessageCollector(filter, {time: time, max: 1});
+                
+            this.responseCollector.on('collect', async message => {
+                    if (message.channel.type !== 'dm') await message.delete();
+                    if (msg &amp;&amp; !msg.deleted) msg.delete();
+    
+                    let cancel = message.content.toLowerCase() == 'cancel';
+                    if (cancel) return res(undefined);
+    
+                    res(justContent ? message.content : message);
+            });
+                
+            this.responseCollector.on('end', async (c, reason) => {
+                if (msg &amp;&amp; !msg.deleted) msg.delete();
+                if (reason == 'time') res(undefined);
+            });
+        });
+    }
+
+    createConfirmation(options) {
+        return Confirmation.create(this.message, options);
+    }
+
+    createPagination(options) {
+        return Pagination.create(this.message, options);
+    }
+
+    createMenu(options) {
+        return Menu.create(this.message, options);
+    }
+}
+
+module.exports = Command;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
