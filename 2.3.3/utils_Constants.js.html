@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>utils/Constants.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Client.html">Client</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Client.html#addFeaturesToMessage">addFeaturesToMessage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Client.html#executeEngine">executeEngine</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Command.html">Command</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#getMentioned">getMentioned</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#hasOption">hasOption</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#parseResponse">parseResponse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Command.html#removeOption">removeOption</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Engine.html">Engine</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">utils/Constants.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Options for a Dolphin Client
+ * @typedef {ClientOptions}
+ * @property {?boolean} allowBots Whether to allow bots to execute commands. Default: false
+ * @property {?string} prefix The default bot prefix for commands. Default: !
+ * @property {?boolean} mentionAsPrefix Whether to use the bot's mention as a prefix. Default: true
+ * @property {?array} owners An array of the bot's owners. This is normally used to set commands as owner only. Default: Empty Array
+ * @property {?CommandsRegisterOptions} commands Options to register the commands
+ * @property {?string} eventsPath The string path to the events folder
+ * @property {?boolean} disableReadyMessage Whether to display a console.log message saying the bot is online
+ * @property {?boolean} useSendEmbed Whether the text should appear in a nice embed when executing #Message.say() built-in function
+ * @property {?string} mainColor The main color used in the embeds for #Message.say() built-in function
+ * @property {?string} defaultCommand The default command that displays when the bot is mentioned
+ * @property {?string} enginesPath The string path to the engines folder
+ */
+
+exports.ClientOptions = {
+    "allowBots": false,
+    "prefix": "!",
+    "mentionAsPrefix": true,
+    "owners": [],
+    "commands": {
+        "path": null,
+        "cooldown": 3,
+        "defaultCommands": true,
+        "useDefaultHandler": true
+    },
+    "disableReadyMessage": false,
+    "useSendEmbed": true,
+    "mainColor": "#FFFFFF",
+    "defaultCommand": "breefinfo"
+}
+
+/**
+ * Options to register the commands
+ * @typedef {CommandsRegisterOptions}
+ * @property {string} path The commands path
+ * @property {number} cooldown The amount of seconds to wait before execute another commadn
+ * @property {boolean} defaultCommands Whether to use default commands such as ping, reload, breefinfo and eval
+ * @property {boolean} useDefaultHandler Whether to use the default command handler
+ */
+exports.CommandsRegisterOptions = {}
+
+/**
+ * 
+ * @typedef {CommandOptions}
+ * @property {string} name The command name
+ * @property {?string} description The command description
+ * @property {?string} syntax The command syntax
+ * @property {?array} aliases The command aliases
+ * @property {?number} defaultArgs The number of arguments needed to be passed to the command in order of him to execute
+ * @property {?number} argsCount The number of arguments that you want to return. Don't pass any value to this property if you want to get all the arguments
+ * @property {?array} botPermissions The permissions the bot needs in order to execute the command
+ * @property {?array} permissions The permissions the user needs in order to execute the command
+ * @property {?array} roles The roles the user needs in order to execute the command
+ * @property {?boolean} dmVersion Whether the command should work in the direct messages
+ */
+exports.CommandOptions = {}
+
+/**
+ * Options for the Dolphin Engine
+ * @typedef {EngineOptions}
+ * @property {?string} name The Dolphin Engine name
+ * @property {?boolean} runAtStart Whether the engine should execute the same time as the "ready" event is emitted.
+ */
+exports.EngineOptions = {
+    "runAtStart": true
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
