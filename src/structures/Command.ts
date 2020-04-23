@@ -1,6 +1,7 @@
 import {CommandOptions} from '../utils/interfaces';
 import { User, GuildMember, Message } from 'discord.js';
 import DolphinClient from './Client';
+import {Confirmation, ConfirmationOptions, ResponseOptions, Response, PaginationOptions, Pagination} from 'discord-interface';
 
 export default class Command {
 	options: CommandOptions;
@@ -34,5 +35,29 @@ export default class Command {
 		const members = await this.message.guild.members.fetch();
 
 		return members.get(user.id);
+	}
+
+	createConfirmation(options: ConfirmationOptions): Confirmation {
+		return Confirmation.create({
+			channel: this.message.channel,
+			userId: this.message.author.id,
+			...options
+		});
+	}
+
+	createResponse(options: ResponseOptions): Response {
+		return Response.create({
+			channel: this.message.channel,
+			userId: this.message.author.id,
+			...options
+		});
+	}
+
+	createPagination(options: PaginationOptions): Pagination {
+		return Pagination.create({
+			channel: this.message.channel,
+			userId: this.message.author.id,
+			...options
+		});
 	}
 }
