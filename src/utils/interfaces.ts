@@ -55,6 +55,7 @@ export interface ExtendedMessage extends Message {
 	commandArgs: string[];
 	author: ExtendedUser;
 	showCorrectSyntax();
+	say(text: string): Promise<Message>;
 }
 
 export interface ExtendedUser extends User {
