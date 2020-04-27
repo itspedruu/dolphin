@@ -15,3 +15,5 @@ or, if you are using yarn:
 ```
 yarn add dolphin-discord
 ```
+
+**Missing Documentation**
