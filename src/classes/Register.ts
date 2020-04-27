@@ -33,11 +33,8 @@ export default class Register {
 	}
 
 	registerExtenders(): void {
-		if (!this.client.dolphinOptions.extendersPath)
-			return;
-
 		const paths = [
-			...utils.getAllFiles(join(process.cwd(), this.client.dolphinOptions.extendersPath)),
+			...(this.client.dolphinOptions.extendersPath ? utils.getAllFiles(join(process.cwd(), this.client.dolphinOptions.extendersPath)) : []),
 			...utils.getAllFiles(join(__dirname, '../extra/extenders'))
 		]
 
@@ -49,11 +46,8 @@ export default class Register {
 	}
 
 	registerEvents(): void {
-		if (!this.client.dolphinOptions.eventsPath)
-			return;
-
 		const paths = [
-			...utils.getAllFiles(join(process.cwd(), this.client.dolphinOptions.eventsPath)),
+			...(this.client.dolphinOptions.eventsPath ? utils.getAllFiles(join(process.cwd(), this.client.dolphinOptions.eventsPath)) : []),
 			...utils.getAllFiles(join(__dirname, '../extra/events'))
 		]
 
