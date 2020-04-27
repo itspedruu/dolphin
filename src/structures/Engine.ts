@@ -4,7 +4,7 @@ import DolphinClient from "./Client";
 export default class Engine {
 	options: EngineOptions;
 	client: DolphinClient;
-	run: any;
+	[x: string]: any;
 	
 	constructor(options: EngineOptions) {
 		this.options = options;

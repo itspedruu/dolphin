@@ -30,7 +30,7 @@ export interface CommandOptions {
 	permissions?: number;
 	roles?: string[];
 	worksWithDm?: boolean;
-	path: string;
+	path?: string;
 	deleteOriginalMessage?: boolean;
 }
 

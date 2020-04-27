@@ -1,14 +1,14 @@
-import {CommandOptions} from '../utils/interfaces';
-import { User, GuildMember, Message } from 'discord.js';
+import {CommandOptions, ExtendedMessage} from '../utils/interfaces';
+import { User, GuildMember } from 'discord.js';
 import DolphinClient from './Client';
 import {Confirmation, ConfirmationOptions, ResponseOptions, Response, PaginationOptions, Pagination} from 'discord-interface';
 
 export default class Command {
 	options: CommandOptions;
-	run: any;
-	message: Message;
+	message: ExtendedMessage;
 	client: DolphinClient;
 	args: string[];
+	[x: string]: any;
 
 	constructor(options: CommandOptions) {
 		if (!options.name)
