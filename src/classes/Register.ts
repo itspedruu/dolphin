@@ -54,7 +54,7 @@ export default class Register {
 		for (const path of paths) {
 			const filename = basename(path);
 			const eventName = filename.slice(0, -3);
-			const { run } = require(filename);
+			const { run } = require(path);
 
 			// @ts-ignore
 			this.client.on(eventName, (...args) => run(this.client, ...args));
