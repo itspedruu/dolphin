@@ -10,7 +10,7 @@ class DolphinClient extends Client {
 	engines: EngineOptions[];
 	register: Register;
 	commandsExecuted: number;
-	cooldown: Collection<string, number>;
+	cooldowns: Collection<string, number>;
 
 	constructor(options?: DolphinClientOptions) {
 		super(options);
@@ -18,7 +18,7 @@ class DolphinClient extends Client {
 		this.dolphinOptions = utils.deepMerge(DOLPHIN_DEFAULT_CLIENT_OPTIONS, options);
 		this.register = new Register(this);
 		this.commandsExecuted = 0;
-		this.cooldown = new Collection();
+		this.cooldowns = new Collection();
 
 		this.register.register();
 	}

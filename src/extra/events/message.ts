@@ -26,6 +26,8 @@ export function run(client: DolphinClient, message: ExtendedMessage): void {
 	if (!command)
 		return;
 
+	message.command = command;
+
 	// Checks if the command can be executed on the dm
 	if (!command.worksWithDm && message.wasExecutedOnDm)
 		return;
@@ -58,7 +60,7 @@ export function run(client: DolphinClient, message: ExtendedMessage): void {
 
 	// Executes command
 	const constructor = require(command.path);
-	const instance = new constructor();
+	const instance = constructor.default ? new constructor.default() : new constructor();
 
 	instance.execute({args: message.commandArgs, message, client});
 }

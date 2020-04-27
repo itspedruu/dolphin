@@ -48,10 +48,12 @@ module.exports = class extends Extender {
 	}
 
 	get hasRequiredRoles(): boolean {
-		return this.command && this.command.roles && !this.wasExecutedOnDm && this.member.roles.some(role => this.command.roles.includes(role.id));
+		return this.command && this.command.roles && !this.wasExecutedOnDm
+			? this.member.roles.some(role => this.command.roles.includes(role.id))
+			: true;
 	}
 
 	get hasRequiredArgs(): boolean {
-		return this.args.length >= this.command.requiredArgs + (this.isBotMentioned ? 2 : 1);
+		return this.args.length >= (this.command.requiredArgs || 0) + (this.isBotMentioned ? 2 : 1);
 	}
 }

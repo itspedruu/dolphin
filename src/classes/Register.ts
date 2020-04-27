@@ -26,7 +26,7 @@ export default class Register {
 
 		for (const path of paths) {
 			const constructor = require(path);
-			const command = new constructor();
+			const command = constructor.default ? new constructor.default() : new constructor();
 
 			this.client.commands.push({...command.options, path});
 		}
@@ -41,7 +41,11 @@ export default class Register {
 		for (const path of paths) {
 			const Extender = require(path);
 			
-			new Extender();
+			if (Extender.default) {
+				new Extender.default();	
+			} else {
+				new Extender();
+			}
 		}
 	}
 
@@ -71,7 +75,7 @@ export default class Register {
 
 		for (const path of paths) {
 			const constructor = require(path);
-			const engine = new constructor();
+			const engine = constructor.default ? new constructor.default() : new constructor();
 
 			this.client.engines.push(({...engine.options, path}));
 		}
