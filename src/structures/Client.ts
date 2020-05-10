@@ -11,6 +11,7 @@ class DolphinClient extends Client {
 	register: Register;
 	commandsExecuted: number;
 	cooldowns: Collection<string, number>;
+	[name: string]: any;
 
 	constructor(options?: DolphinClientOptions) {
 		super(options);
