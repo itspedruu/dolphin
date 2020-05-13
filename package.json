@@ -1,6 +1,6 @@
 {
   "name": "dolphin-discord",
-  "version": "3.0.14",
+  "version": "3.0.15",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
@@ -9,7 +9,7 @@
     "docs": "docgen --source lib --output docs/docs.json"
   },
   "dependencies": {
-    "discord-interface": "^2.0.1",
+    "discord-interface": "^2.0.2",
     "discord.js": "^12.2.0"
   },
   "devDependencies": {
