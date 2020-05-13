@@ -9,7 +9,7 @@
     "docs": "docgen --source lib --output docs/docs.json"
   },
   "dependencies": {
-    "discord-interface": "^2.0.2",
+    "discord-interface": "^2.0.3",
     "discord.js": "^12.2.0"
   },
   "devDependencies": {

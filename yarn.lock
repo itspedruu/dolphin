@@ -1336,10 +1336,10 @@ diff-sequences@^25.2.6:
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-25.2.6.tgz#5f467c00edd35352b7bca46d7927d60e687a76dd"
   integrity sha512-Hq8o7+6GaZeoFjtpgvRBUknSXNeJiCx7V9Fr94ZMljNiCr9n9L8H8aJqgWOQiDDGdyn29fRNcDdRVJ5fdyihfg==
 
-discord-interface@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/discord-interface/-/discord-interface-2.0.2.tgz#2a4202b7d949dd35b50170e113bd3bd11cdc4d87"
-  integrity sha512-WmCeLKx4IvDYZD1e/1zoyeuyoIpevDGVUmFFDMIZe1CZRlAtLMhAIy+JkT8gpDXSpYkwUC4iKl1LmCRJleJ1Bw==
+discord-interface@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/discord-interface/-/discord-interface-2.0.3.tgz#29cbf5174e48c0e7843aa7d9ca706b9ae458c400"
+  integrity sha512-40aKKUEELZe5YQmv8iYCmohNc+PtlT6CAnPQ4fj63MA54YRVZ/VBG5Uo40xYr2Q+5a/kkYUmaADVU6ifsXLyNw==
   dependencies:
     discord.js "^12.2.0"
 
