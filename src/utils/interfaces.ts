@@ -37,8 +37,8 @@ export interface CommandOptions {
 export interface EngineOptions {
 	name?: string;
 	runAtStart?: boolean;
-	path: string;
-	cooldown: number;
+	path?: string;
+	cooldown?: number;
 }
 
 export interface ExtenderOptions {
