@@ -51,7 +51,7 @@ export function run(client: DolphinClient, message: ExtendedMessage): void {
 	if (message.author.hasCooldown)
 		return this.message.say(`:fire: You need to wait **{${utils.formatTime(message.author.cooldownTimeLeft / 1000)}}** until you execute another command.`);
 
-	client.cooldowns.set(this.message.author.id, Date.now());
+	client.cooldowns.set(message.author.id, Date.now());
 
 	// Required args
 	if (!message.hasRequiredArgs)
