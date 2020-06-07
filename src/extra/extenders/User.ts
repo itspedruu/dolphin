@@ -18,11 +18,11 @@ module.exports = class extends Extender {
 
 	get hasCooldown(): boolean {
 		return this.client.cooldowns.get(this.id) && this.client.dolphinOptions.commands && this.client.dolphinOptions.commands.cooldown
-			? Date.now() - this.client.cooldowns.get(this.id) >= this.client.dolphinOptions.commands.cooldown * 1000
+			? this.cooldownTimeLeft > 0
 			: false;
 	}
 
 	get cooldownTimeLeft(): number {
-		return this.client.commands.cooldown - (Date.now() - this.client.cooldowns.get(this.id));
+		return (this.client.dolphinOptions.commands.cooldown * 1000) - (Date.now() - this.client.cooldowns.get(this.id));
 	}
 }

@@ -3,7 +3,7 @@ import { ExtendedMessage } from '../../utils/interfaces';
 import { Permissions } from 'discord.js';
 import utils from '../../utils';
 
-export function run(client: DolphinClient, message: ExtendedMessage): void {
+export function run(client: DolphinClient, message: ExtendedMessage): Promise<any> {
 	// Checks if the user is a bot and "allowBots" is false
 	if (!client.dolphinOptions.allowBots && message.author.bot)
 		return;
@@ -44,12 +44,12 @@ export function run(client: DolphinClient, message: ExtendedMessage): void {
 	if (command.botPermissions && this.message.guild.me.hasPermission(command.botPermissions)) {
 		const permissions = new Permissions(command.botPermissions);
 
-		return this.message.say(`:no_entry: The bot needs the following permissions to execute this command: **${permissions.toArray().join(', ')}**`);
+		return message.say(`:no_entry: The bot needs the following permissions to execute this command: **${permissions.toArray().join(', ')}**`);
 	}
 
 	// Checks cooldown
 	if (message.author.hasCooldown)
-		return this.message.say(`:fire: You need to wait **{${utils.formatTime(message.author.cooldownTimeLeft / 1000)}}** until you execute another command.`);
+		return message.say(`:fire: You need to wait **${utils.formatTime(message.author.cooldownTimeLeft / 1000)}** until you execute another command.`);
 
 	client.cooldowns.set(message.author.id, Date.now());
 
