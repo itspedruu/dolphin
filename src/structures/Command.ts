@@ -25,16 +25,16 @@ export default class Command {
 	}
 
 	async getMentioned(requiresMember: boolean, from?: number, to?: number): Promise<User | GuildMember> {
-		const name = this.args.slice(from, to).join(' ');
+		const fromIndex = from !== void 0 ? from : 0;
+		const toIndex = to !== void 0 ? to : this.args.length;
+		const resolvable = this.args.slice(fromIndex, toIndex).join(' ');
 		const user = this.message.mentions.users.first()
-			|| this.client.users.cache.find(user => user.username.toLowerCase().includes(name.toLowerCase()));
+			|| this.client.users.cache.find(user => user.username.toLowerCase().includes(resolvable.toLowerCase()) || user.id === resolvable);
 
 		if (!requiresMember)
 			return user;
 
-		const members = await this.message.guild.members.fetch();
-
-		return members.get(user.id);
+		return await this.message.guild.members.fetch(user.id);
 	}
 
 	createConfirmation(options: ConfirmationOptions): Confirmation {
