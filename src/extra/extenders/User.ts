@@ -13,7 +13,7 @@ module.exports = class extends Extender {
 	}
 
 	setCooldown(): void {
-		this.client.commands.set(this.id, Date.now());
+		this.client.cooldowns.set(this.id, Date.now());
 	}
 
 	get hasCooldown(): boolean {
