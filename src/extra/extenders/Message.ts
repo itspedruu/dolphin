@@ -56,4 +56,8 @@ module.exports = class extends Extender {
 	get hasRequiredArgs(): boolean {
 		return this.args.length >= (this.command.requiredArgs || 0) + (this.isBotMentioned ? 2 : 1);
 	}
+
+	get needsOwnerPermissions(): boolean {
+		return this.command?.ownerOnly;
+	}
 }

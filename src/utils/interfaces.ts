@@ -32,6 +32,7 @@ export interface CommandOptions {
 	worksWithDm?: boolean;
 	path?: string;
 	deleteOriginalMessage?: boolean;
+	ownerOnly?: boolean;
 }
 
 export interface EngineOptions {
@@ -52,6 +53,7 @@ export interface ExtendedMessage extends Message {
 	command?: CommandOptions;
 	hasRequiredRoles: boolean;
 	hasRequiredArgs: boolean;
+	needsOwnerPermissions: boolean;
 	commandArgs: string[];
 	author: ExtendedUser;
 	showCorrectSyntax();
@@ -61,5 +63,6 @@ export interface ExtendedMessage extends Message {
 export interface ExtendedUser extends User {
 	hasCooldown: boolean;
 	cooldownTimeLeft: number;
-	setColldown();
+	isOwner: boolean;
+	setCooldown();
 }

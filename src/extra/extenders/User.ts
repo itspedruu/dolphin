@@ -25,4 +25,8 @@ module.exports = class extends Extender {
 	get cooldownTimeLeft(): number {
 		return (this.client.dolphinOptions.commands.cooldown * 1000) - (Date.now() - this.client.cooldowns.get(this.id));
 	}
+
+	get isOwner(): boolean {
+		return this.client.dolphinOptions?.owners?.includes(this.id);
+	}
 }

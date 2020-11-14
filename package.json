@@ -1,10 +1,10 @@
 {
   "name": "dolphin-discord",
-  "version": "3.0.24",
+  "version": "3.0.25",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
-    "compile": "rmdir /Q /S lib && tsc",
+    "compile": "rm -rf lib && tsc",
     "test": "jest",
     "docs": "docgen --source lib --output docs/docs.json"
   },
