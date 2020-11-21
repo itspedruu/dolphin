@@ -28,8 +28,10 @@ export default class Command {
 		const fromIndex = from !== void 0 ? from : 0;
 		const toIndex = to !== void 0 ? to : this.args.length;
 		const resolvable = this.args.slice(fromIndex, toIndex).join(' ');
-		const user = this.message.mentions.users.first()
-			|| this.client.users.cache.find(user => user.username.toLowerCase().includes(resolvable.toLowerCase()) || user.id === resolvable);
+		const user = resolvable.length > 0
+			? this.message.mentions.users.first() 
+				|| this.client.users.cache.find(user => user.username.toLowerCase().includes(resolvable.toLowerCase()) || user.id === resolvable)
+			: null;
 
 		if (!requiresMember)
 			return user;
