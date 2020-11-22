@@ -21,10 +21,7 @@ export function run(client: DolphinClient, message: ExtendedMessage): Promise<an
 	if (!command)
 		return;
 
-	if (command.isParent) {
-		if (message.args.length == 1 || (message.isBotMentioned && message.args.length == 2))
-			return;
-
+	if (command.isParent && (message.args.length > 1 || (message.isBotMentioned && message.args.length > 2))) {
 		const subCommandName = message.args[message.isBotMentioned ? 2 : 1].toLowerCase();
 		const subCommand = client.searchCommand(subCommandName);
 

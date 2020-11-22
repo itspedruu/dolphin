@@ -57,6 +57,7 @@ export interface ExtendedMessage extends Message {
 	hasRequiredArgs: boolean;
 	needsOwnerPermissions: boolean;
 	commandArgs: string[];
+	defaultArgsCount: number;
 	author: ExtendedUser;
 	showCorrectSyntax();
 	say(text: string): Promise<Message>;

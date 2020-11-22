@@ -35,10 +35,12 @@ module.exports = class extends Extender {
 		return this.content.trim().split(/\s+/gu);
 	}
 
-	get commandArgs(): string[] {
-		const increment = this.command.parent ? 1 : 0;
+	get defaultArgsCount(): number {
+		return (this.isBotMentioned ? 2 : 1) + (this.command.parent ? 1 : 0);
+	}
 
-		return this.args.slice(this.isBotMentioned ? 2 + increment : 1 + increment);
+	get commandArgs(): string[] {
+		return this.args.slice(this.defaultArgsCount);
 	}
 
 	get wasExecutedOnDm(): boolean {
@@ -56,7 +58,7 @@ module.exports = class extends Extender {
 	}
 
 	get hasRequiredArgs(): boolean {
-		return this.args.length >= (this.command.requiredArgs || 0) + (this.isBotMentioned ? 2 : 1);
+		return this.args.length >= (this.command.requiredArgs || 0) + this.defaultArgsCount;
 	}
 
 	get needsOwnerPermissions(): boolean {
