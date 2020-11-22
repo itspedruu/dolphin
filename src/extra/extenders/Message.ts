@@ -36,7 +36,9 @@ module.exports = class extends Extender {
 	}
 
 	get commandArgs(): string[] {
-		return this.args.slice(this.isBotMentioned ? 2 : 1);
+		const increment = this.command.parent ? 1 : 0;
+
+		return this.args.slice(this.isBotMentioned ? 2 + increment : 1 + increment);
 	}
 
 	get wasExecutedOnDm(): boolean {

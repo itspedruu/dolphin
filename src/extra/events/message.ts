@@ -16,10 +16,21 @@ export function run(client: DolphinClient, message: ExtendedMessage): Promise<an
 			: client.dolphinOptions.commands.defaultCommand
 		: message.args[0].slice(client.dolphinOptions.prefix.length);
 
-	const command = client.commands.find(command => command.name == commandName || (command.aliases && command.aliases.includes(commandName)));
+	let command = client.searchCommand(commandName);
 	
 	if (!command)
 		return;
+
+	if (command.isParent) {
+		if (message.args.length == 1 || (message.isBotMentioned && message.args.length == 2))
+			return;
+
+		const subCommandName = message.args[message.isBotMentioned ? 2 : 1].toLowerCase();
+		const subCommand = client.searchCommand(subCommandName);
+
+		if (subCommand)
+			command = subCommand;
+	}
 
 	message.command = command;
 	

@@ -44,6 +44,13 @@ class DolphinClient extends Client {
 		for (const engine of options)
 			this.executeEngine(engine.name);
 	}
+
+	searchCommand(name: string, parent?: string): CommandOptions {
+		return this.commands.find(command => 
+			(command.name == name || (command.aliases && command.aliases.includes(name)))
+			&& (parent ? command.parent === parent : true)
+		);
+	}
 }
 
 export default DolphinClient;

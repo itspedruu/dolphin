@@ -33,6 +33,8 @@ export interface CommandOptions {
 	path?: string;
 	deleteOriginalMessage?: boolean;
 	ownerOnly?: boolean;
+	isParent?: boolean;
+	parent?: string;
 }
 
 export interface EngineOptions {
