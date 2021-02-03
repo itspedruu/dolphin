@@ -53,7 +53,7 @@ module.exports = class extends Extender {
 
 	get hasRequiredRoles(): boolean {
 		return this.command && this.command.roles && !this.wasExecutedOnDm
-			? this.member.roles.some(role => this.command.roles.includes(role.id))
+			? this.member.roles.cache.some(role => this.command.roles.includes(role.id))
 			: true;
 	}
 

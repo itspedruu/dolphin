@@ -53,7 +53,7 @@ export default class Register {
 		const paths = [
 			...(this.client.dolphinOptions.eventsPath ? utils.getAllFiles(join(process.cwd(), this.client.dolphinOptions.eventsPath)) : []),
 			...utils.getAllFiles(join(__dirname, '../extra/events'))
-				.filter(filename => this.client.dolphinOptions.commands?.useDefaultCommandHandler ? filename !== 'message.js' : true)
+				.filter(filename => this.client.dolphinOptions.commands?.useDefaultCommandHandler ? true : basename(filename) !== 'message.js')
 		];
 
 		for (const path of paths) {
