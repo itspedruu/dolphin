@@ -1,6 +1,7 @@
 import DolphinClient from '../structures/Client';
 import util from '../util';
 import { join, basename } from 'path';
+import { Snowflake } from 'discord.js';
 
 export default class RegisterService {
 	client: DolphinClient;
@@ -16,11 +17,12 @@ export default class RegisterService {
 		this.registerEngines();
 	}
 
-	registerCommands(): void {
+	async registerCommands(): Promise<void> {
 		if (!this.client.dolphinOptions.commands)
 			return;
 
 		this.client.commands = [];
+		this.client.slashCommands = { global: [] };
 
 		const paths = util.getAllFiles(join(process.cwd(), this.client.dolphinOptions.commands.path));
 
@@ -29,6 +31,26 @@ export default class RegisterService {
 			const command = constructor.default ? new constructor.default() : new constructor();
 
 			this.client.commands.push({...command.options, path});
+
+			if (command.isSlashCommand) {
+				this.client.slashCommands[command.options.guildId ?? 'global'].push({
+					name: command.options.name,
+					description: command.options.description,
+					options: command.options.options
+				});	
+			}
+		}
+
+		const existsSlashCommands = (Object.values(this.client.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
+		
+		if (existsSlashCommands) {
+			for (const key of Object.keys(this.client.slashCommands)) {
+				if (key === 'global') {
+					await this.client.application.commands.set(this.client.slashCommands.global);
+				} else {
+					await this.client.application.commands.set(this.client.slashCommands[key], key as Snowflake);
+				}
+			}
 		}
 	}
 

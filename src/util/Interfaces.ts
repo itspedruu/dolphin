@@ -1,4 +1,4 @@
-import { ClientOptions, CommandInteraction, Message, PermissionResolvable, Snowflake, User } from 'discord.js';
+import { ApplicationCommandData, ApplicationCommandOptionData, ClientOptions, CommandInteraction, Message, PermissionResolvable, Snowflake, User } from 'discord.js';
 import DolphinClient from '../structures/Client';
 
 export interface DolphinClientOptions extends ClientOptions {
@@ -12,6 +12,7 @@ export interface DolphinClientOptions extends ClientOptions {
 	extendersPath?: string;
 	enableReadyMessage?: boolean;
 	mainColor?: string;
+	slashCommands?: ApplicationCommandData[];
 }
 
 export interface CommandsRegisterOptions {
@@ -25,6 +26,7 @@ export interface CommandOptions {
 	name: string;
 	syntax?: string;
 	description?: string;
+	options?: ApplicationCommandOptionData[];
 	aliases?: string[];
 	requiredArgs?: number;
 	botPermissions?: PermissionResolvable;
@@ -36,6 +38,8 @@ export interface CommandOptions {
 	ownerOnly?: boolean;
 	isParent?: boolean;
 	parent?: string;
+	isSlashCommand?: boolean;
+	guildId?: string;
 }
 
 export interface EngineOptions {
@@ -75,11 +79,6 @@ export interface CommandHandlerParameters {
 	client: DolphinClient;
 	message?: ExtendedMessage;
 	interaction?: CommandInteraction;
-}
-
-export interface CommandChecks {
-	isBotAccount: boolean;
-	doesNotStartWithPrefix: boolean;
 }
 
 export interface CommandSearchOptions {
