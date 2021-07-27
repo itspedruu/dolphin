@@ -1,4 +1,4 @@
-import { EngineOptions } from "../utils/interfaces";
+import { EngineOptions } from "../util/Interfaces";
 import DolphinClient from "./Client";
 
 export default class Engine {

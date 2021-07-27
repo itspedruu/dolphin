@@ -1,8 +1,9 @@
 import {Client, Collection} from 'discord.js';
-import {DolphinClientOptions, CommandOptions, EngineOptions} from '../utils/interfaces';
-import utils from '../utils';
-import {DOLPHIN_DEFAULT_CLIENT_OPTIONS} from '../utils/defaults';
-import Register from '../classes/Register';
+import Register from '../services/Register';
+import util from '../util';
+
+import {DolphinClientOptions, CommandOptions, EngineOptions, CommandSearchOptions} from '../util/Interfaces';
+import {DOLPHIN_DEFAULT_CLIENT_OPTIONS} from '../util/Defaults';
 
 class DolphinClient extends Client {
 	dolphinOptions: DolphinClientOptions;
@@ -14,9 +15,11 @@ class DolphinClient extends Client {
 	[name: string]: any;
 
 	constructor(options?: DolphinClientOptions) {
-		super(options);
+		const dolphinOptions = util.deepMerge(DOLPHIN_DEFAULT_CLIENT_OPTIONS, options) as DolphinClientOptions;
 
-		this.dolphinOptions = utils.deepMerge(DOLPHIN_DEFAULT_CLIENT_OPTIONS, options);
+		super(dolphinOptions);
+
+		this.dolphinOptions = dolphinOptions;
 		this.register = new Register(this);
 		this.commandsExecuted = 0;
 		this.cooldowns = new Collection();
@@ -41,15 +44,27 @@ class DolphinClient extends Client {
 		
 		const options = this.engines.filter(engine => engine.runAtStart !== false);
 
-		for (const engine of options)
+		for (const engine of options) {
 			this.executeEngine(engine.name);
+		}
 	}
 
-	searchCommand(name: string, parent?: string): CommandOptions {
-		return this.commands.find(command => 
+	searchCommand({name, parent, commandArgs}: CommandSearchOptions): CommandOptions {
+		const tempCommand = this.commands.find(command => 
 			(command.name == name || (command.aliases && command.aliases.includes(name)))
 			&& (parent ? command.parent === parent : true)
 		);
+
+		if (tempCommand.isParent && commandArgs && commandArgs.length > 0) {
+			const subCommandName = commandArgs[0].toLowerCase();
+			const subCommand = this.searchCommand({name: subCommandName, parent: name});
+
+			if (subCommand) {
+				return subCommand
+			}
+		}
+
+		return tempCommand;
 	}
 }
 

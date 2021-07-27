@@ -1,5 +1,5 @@
 const {Client} = require('../lib');
-const {DOLPHIN_DEFAULT_CLIENT_OPTIONS} = require('../lib/utils/defaults');
+const {DOLPHIN_DEFAULT_CLIENT_OPTIONS} = require('../lib/util/defaults');
 
 describe('Creates a Dolphin Client', () => {
 	test('Creates with Default Options', () => {

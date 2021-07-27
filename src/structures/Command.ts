@@ -1,7 +1,7 @@
-import {CommandOptions, ExtendedMessage} from '../utils/interfaces';
-import { User, GuildMember } from 'discord.js';
+import {CommandOptions, ExtendedMessage} from '../util/Interfaces';
+import { User, GuildMember, TextChannel } from 'discord.js';
 import DolphinClient from './Client';
-import {Confirmation, ConfirmationOptions, ResponseOptions, Response, PaginationOptions, Pagination} from 'discord-interface';
+import {Confirmation, ConfirmationOptions, ConfirmationResult, ResponseOptions, Response, PaginationOptions, Pagination, ResponseResult} from 'discord-interface';
 
 export default class Command {
 	options: CommandOptions;
@@ -39,17 +39,19 @@ export default class Command {
 		return await this.message.guild.members.fetch(user.id);
 	}
 
-	createConfirmation(options: ConfirmationOptions): Confirmation {
-		return Confirmation.create({
-			channel: this.message.channel,
+	getConfirmation(options: ConfirmationOptions): Promise<ConfirmationResult> {
+		return Confirmation.get({
+			channel: this.message?.channel as TextChannel,
+			interaction: this.interaction,
 			userId: this.message.author.id,
 			...options
 		});
 	}
 
-	createResponse(options: ResponseOptions): Response {
-		return Response.create({
-			channel: this.message.channel,
+	getResponse(options: ResponseOptions): Promise<ResponseResult> {
+		return Response.get({
+			channel: this.message?.channel as TextChannel,
+			interaction: this.interaction,
 			userId: this.message.author.id,
 			...options
 		});
@@ -57,7 +59,8 @@ export default class Command {
 
 	createPagination(options: PaginationOptions): Pagination {
 		return Pagination.create({
-			channel: this.message.channel,
+			channel: this.message?.channel as TextChannel,
+			interaction: this.interaction,
 			userId: this.message.author.id,
 			...options
 		});

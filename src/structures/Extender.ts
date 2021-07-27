@@ -1,5 +1,5 @@
-import { ExtenderOptions } from '../utils/interfaces';
-import { DEFAULT_EXTENDER_STATIC_PROPERTIES, DEFAULT_EXTENDER_PROTOTYPE_PROPERTIES } from '../utils/defaults';
+import { ExtenderOptions } from '../util/Interfaces';
+import { DEFAULT_EXTENDER_STATIC_PROPERTIES, DEFAULT_EXTENDER_PROTOTYPE_PROPERTIES } from '../util/Defaults';
 
 export default class Extender {
 	options: ExtenderOptions;

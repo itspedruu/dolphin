@@ -1,6 +1,6 @@
 import { Message, MessageEmbed } from 'discord.js';
 import Extender from '../../structures/Extender';
-import {ExtendedMessage} from '../../utils/interfaces';
+import {ExtendedMessage} from '../../util/Interfaces';
 
 module.exports = class extends Extender {
 	[x: string]: any;
@@ -36,7 +36,7 @@ module.exports = class extends Extender {
 	}
 
 	get defaultArgsCount(): number {
-		return (this.isBotMentioned ? 2 : 1) + (this.command.parent ? 1 : 0);
+		return (this.isBotMentioned ? 2 : 1) + (this.command?.parent ? 1 : 0);
 	}
 
 	get commandArgs(): string[] {
@@ -58,7 +58,7 @@ module.exports = class extends Extender {
 	}
 
 	get hasRequiredArgs(): boolean {
-		return this.args.length >= (this.command.requiredArgs || 0) + this.defaultArgsCount;
+		return this.commandArgs.length >= (this.command.requiredArgs || 0);
 	}
 
 	get needsOwnerPermissions(): boolean {
