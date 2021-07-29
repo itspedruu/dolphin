@@ -55,6 +55,10 @@ class DolphinClient extends Client {
 			&& (parent ? command.parent === parent : true)
 		);
 
+		if (!tempCommand) {
+			return;
+		}
+
 		if (tempCommand.isParent && commandArgs && commandArgs.length > 0) {
 			const subCommandName = commandArgs[0].toLowerCase();
 			const subCommand = this.searchCommand({name: subCommandName, parent: name});
