@@ -8,11 +8,11 @@ export function getChecks({client, interaction, message}: CommandHandlerParamete
 	const member = interaction ? interaction.member : message.member;
 
 	return {
-		isBotAccount: !client.dolphinOptions.allowBots && !author.bot,
-		doesNotStartWithPrefix: !message.isBotMentioned && !message.content.startsWith(client.dolphinOptions.prefix),
-		doesNotWorkWithDm: !message.command.worksWithDm && message.wasExecutedOnDm,
-		needsOwnerPermissions: message.needsOwnerPermissions && !author.isOwner,
-		needsRoles: message.command.roles && !message.wasExecutedOnDm && !message.command.roles.some(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId))
+		isBotAccount: (): boolean => !client.dolphinOptions.allowBots && !author.bot,
+		doesNotStartWithPrefix: (): boolean => !message.isBotMentioned && !message.content.startsWith(client.dolphinOptions.prefix),
+		doesNotWorkWithDm: (): boolean => !message.command?.worksWithDm && message.wasExecutedOnDm,
+		needsOwnerPermissions: (): boolean => message.needsOwnerPermissions && !author.isOwner,
+		needsRoles: (): boolean => message.command?.roles && !message.wasExecutedOnDm && !message.command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId))
 	}
 }
 
@@ -30,11 +30,10 @@ export default function run(options: CommandHandlerParameters): any {
 	const guild = interaction ? interaction.guild : message.guild;
 	const checks = getChecks(options);
 
-	if (checks.isBotAccount) {
+	if (checks.isBotAccount()) {
 		return;
 	}
-	
-	if (checks.doesNotStartWithPrefix) {
+	if (checks.doesNotStartWithPrefix()) {
 		return;
 	}
 
@@ -50,15 +49,15 @@ export default function run(options: CommandHandlerParameters): any {
 
 	message.command = command;
 	
-	if (checks.doesNotWorkWithDm) {
+	if (checks.doesNotWorkWithDm()) {
 		return;
 	}
 
-	if (checks.needsOwnerPermissions) {
+	if (checks.needsOwnerPermissions()) {
 		return;
 	}
 
-	if (checks.needsRoles) {
+	if (checks.needsRoles()) {
 		return;
 	}
 	

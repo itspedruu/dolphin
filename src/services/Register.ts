@@ -75,7 +75,7 @@ export default class RegisterService {
 		const paths = [
 			...(this.client.dolphinOptions.eventsPath ? util.getAllFiles(join(process.cwd(), this.client.dolphinOptions.eventsPath)) : []),
 			...util.getAllFiles(join(__dirname, '../extra/events'))
-				.filter(filename => this.client.dolphinOptions.commands?.useDefaultCommandHandler ? true : basename(filename) !== 'messageCreate.js' || basename(filename) !== 'interactionCreate.js')
+				.filter(filename => this.client.dolphinOptions.commands?.useDefaultCommandHandler ? true : basename(filename) !== 'messageCreate.js' && basename(filename) !== 'interactionCreate.js')
 		];
 
 		for (const path of paths) {

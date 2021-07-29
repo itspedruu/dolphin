@@ -1371,12 +1371,12 @@ discord-api-types@^0.19.0:
   resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.19.0.tgz#86ba8021b29190cf860e90a2bc3e29b1d7aab3ba"
   integrity sha512-t2HKLd43Lbe+rf+ffYfKVv9Kk5f6p7sFqvO6CMV55ZB0PgZv8WigCkt9FoJciYo5S3Q6CGYK+WnE/ZG+6vkBDQ==
 
-discord-interface@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/discord-interface/-/discord-interface-3.0.0.tgz#ddbcbd9bba12a86f32a0b05eaebd9375f8add9c1"
-  integrity sha512-g5/cDRQhJylsyHZHdcRz70djV5A40sdd/sFXhsXTd/gcbaGhuk5m4c+wCHfbYIfe4lx+Wa+UI7iRaqd1/DFK5g==
+discord-interface@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/discord-interface/-/discord-interface-3.0.1.tgz#6795fb8207a73e896e702d77fdb3a4354ca71e1b"
+  integrity sha512-V/Gv/7xF1PxVR3d5W/UR0ZJPD9Ut2H7E2h9aN54e0TSAxgzi1GJ2u06YMpR6vrhI/QWgbJyJJRrKWoCK+304Yw==
   dependencies:
-    discord.js "^13.0.0-dev.4886ae2.1627300977"
+    discord.js "13.0.0-dev.4886ae2.1627300977"
 
 discord.js-docgen@discordjs/docgen:
   version "0.9.0"
@@ -1388,7 +1388,7 @@ discord.js-docgen@discordjs/docgen:
     tsubaki "^1.3.2"
     yargs "^14.0.0"
 
-discord.js@^13.0.0-dev.4886ae2.1627300977:
+discord.js@13.0.0-dev.4886ae2.1627300977:
   version "13.0.0-dev.4886ae2.1627300977"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-13.0.0-dev.4886ae2.1627300977.tgz#4d428de97d2a1962c53a4846b2658abc9788a1a8"
   integrity sha512-RW0LUhTcLvieGGMFC8WxPYNABvd/iMZodtHjEl9Rw5VytFehVQK1/rghyy36iWkC5RRgoI4wkV0w1NuWY9SkhQ==
