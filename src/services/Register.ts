@@ -1,7 +1,6 @@
 import DolphinClient from '../structures/Client';
 import util from '../util';
 import { join, basename } from 'path';
-import { Snowflake } from 'discord.js';
 
 export default class RegisterService {
 	client: DolphinClient;
@@ -38,18 +37,6 @@ export default class RegisterService {
 					description: command.options.description,
 					options: command.options.options
 				});	
-			}
-		}
-
-		const existsSlashCommands = (Object.values(this.client.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
-		
-		if (existsSlashCommands) {
-			for (const key of Object.keys(this.client.slashCommands)) {
-				if (key === 'global') {
-					await this.client.application.commands.set(this.client.slashCommands.global);
-				} else {
-					await this.client.application.commands.set(this.client.slashCommands[key], key as Snowflake);
-				}
 			}
 		}
 	}

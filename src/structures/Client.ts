@@ -1,4 +1,4 @@
-import {Client, Collection} from 'discord.js';
+import {Client, Collection, Snowflake} from 'discord.js';
 import Register from '../services/Register';
 import util from '../util';
 
@@ -69,6 +69,20 @@ class DolphinClient extends Client {
 		}
 
 		return tempCommand;
+	}
+
+	async registerSlashCommands(): Promise<void> {
+		const existsSlashCommands = (Object.values(this.client.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
+		
+		if (existsSlashCommands) {
+			for (const key of Object.keys(this.client.slashCommands)) {
+				if (key === 'global') {
+					await this.client.application.commands.set(this.client.slashCommands.global);
+				} else {
+					await this.client.application.commands.set(this.client.slashCommands[key], key as Snowflake);
+				}
+			}
+		}
 	}
 }
 
