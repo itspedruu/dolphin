@@ -32,7 +32,7 @@ export default class RegisterService {
 
 			this.client.commands.push({...command.options, path});
 
-			if (command.isSlashCommand) {
+			if (command.options.isSlashCommand) {
 				this.client.slashCommands[command.options.guildId ?? 'global'].push({
 					name: command.options.name,
 					description: command.options.description,
