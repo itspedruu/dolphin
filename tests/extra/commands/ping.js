@@ -8,6 +8,6 @@ module.exports = class extends Command {
 	}
 
 	run() {
-		return this.message.channel.send('Pong!');
+		return this.message.channel.send({content: 'Pong!'});
 	}
 }

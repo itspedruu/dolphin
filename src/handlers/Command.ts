@@ -1,4 +1,4 @@
-import { GuildMemberRoleManager, Permissions } from 'discord.js';
+import { GuildMemberRoleManager, Message, Permissions, InteractionReplyOptions } from 'discord.js';
 import { CommandHandlerParameters, ExtendedUser } from '../util/Interfaces';
 
 import util from '../util';
@@ -6,13 +6,14 @@ import util from '../util';
 export function getChecks({client, interaction, message}: CommandHandlerParameters): any {
 	const author = (interaction ? interaction.user : message.author) as ExtendedUser;
 	const member = interaction ? interaction.member : message.member;
+	const wasExecutedOnDm = !(interaction ? interaction.guild : message.guild);
 
 	return {
 		isBotAccount: (): boolean => !client.dolphinOptions.allowBots && !author.bot,
-		doesNotStartWithPrefix: (): boolean => !message.isBotMentioned && !message.content.startsWith(client.dolphinOptions.prefix),
-		doesNotWorkWithDm: (): boolean => !message.command?.worksWithDm && message.wasExecutedOnDm,
-		needsOwnerPermissions: (): boolean => message.needsOwnerPermissions && !author.isOwner,
-		needsRoles: (): boolean => message.command?.roles && !message.wasExecutedOnDm && !message.command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId))
+		doesNotStartWithPrefix: (): boolean => !interaction && !message.isBotMentioned && !message.content.startsWith(client.dolphinOptions.prefix),
+		doesNotWorkWithDm: (command): boolean => !command?.worksWithDm && wasExecutedOnDm,
+		needsOwnerPermissions: (command): boolean => command.ownerOnly && !author.isOwner,
+		needsRoles: (command): boolean => command?.roles && !message.wasExecutedOnDm && !command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId))
 	}
 }
 
@@ -46,39 +47,44 @@ export default function run(options: CommandHandlerParameters): any {
 	if (!command) {
 		return;
 	}
-
-	message.command = command;
 	
-	if (checks.doesNotWorkWithDm()) {
+	if (checks.doesNotWorkWithDm(command)) {
 		return;
 	}
 
-	if (checks.needsOwnerPermissions()) {
+	if (checks.needsOwnerPermissions(command)) {
 		return;
 	}
 
-	if (checks.needsRoles()) {
+	if (checks.needsRoles(command)) {
 		return;
 	}
 	
 	if (command.deleteOriginalMessage && message) {
 		message.delete();
 	}
+
+	const say = (options: InteractionReplyOptions): Promise<void | Message> => interaction ? interaction.reply(options) : message.channel.send(options);
+	const showCorrectSyntax = (): Promise<void | Message> => say({content: `Command Syntax: \`${client.dolphinOptions.prefix}${command.syntax}\``});
 	
 	if (command.botPermissions && !guild.me.permissions.has(command.botPermissions)) {
 		const permissions = new Permissions(command.botPermissions);
 
-		return message.say(`:no_entry: The bot needs the following permissions to execute this command: **${permissions.toArray().join(', ')}**`);
+		return say({
+			content: `:no_entry: The bot needs the following permissions to execute this command: **${permissions.toArray().join(', ')}**`
+		});
 	}
 
 	if (author.hasCooldown) {
-		return message.say(`:fire: You need to wait **${util.formatTime(author.cooldownTimeLeft / 1000)}** until you execute another command.`);
+		return say({
+			content: `:fire: You need to wait **${util.formatTime(author.cooldownTimeLeft / 1000)}** until you execute another command.`
+		});
 	}
 
 	author.setCooldown();
 	
 	if (message && !message.hasRequiredArgs) {
-		return message.showCorrectSyntax();
+		return showCorrectSyntax();
 	}
 	
 	client.commandsExecuted++;
