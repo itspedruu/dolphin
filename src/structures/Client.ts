@@ -72,14 +72,14 @@ class DolphinClient extends Client {
 	}
 
 	async registerSlashCommands(): Promise<void> {
-		const existsSlashCommands = (Object.values(this.client.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
+		const existsSlashCommands = (Object.values(this.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
 		
 		if (existsSlashCommands) {
-			for (const key of Object.keys(this.client.slashCommands)) {
+			for (const key of Object.keys(this.slashCommands)) {
 				if (key === 'global') {
-					await this.client.application.commands.set(this.client.slashCommands.global);
+					await this.application.commands.set(this.slashCommands.global);
 				} else {
-					await this.client.application.commands.set(this.client.slashCommands[key], key as Snowflake);
+					await this.application.commands.set(this.slashCommands[key], key as Snowflake);
 				}
 			}
 		}
