@@ -9,11 +9,12 @@ export function getChecks({client, interaction, message}: CommandHandlerParamete
 	const wasExecutedOnDm = !(interaction ? interaction.guild : message.guild);
 
 	return {
-		isBotAccount: (): boolean => !client.dolphinOptions.allowBots && !author.bot,
+		isBotAccount: (): boolean => !client.dolphinOptions.allowBots && author.bot,
 		doesNotStartWithPrefix: (): boolean => !interaction && !message.isBotMentioned && !message.content.startsWith(client.dolphinOptions.prefix),
 		doesNotWorkWithDm: (command): boolean => !command?.worksWithDm && wasExecutedOnDm,
 		needsOwnerPermissions: (command): boolean => command.ownerOnly && !author.isOwner,
-		needsRoles: (command): boolean => command?.roles && !message.wasExecutedOnDm && !command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId))
+		needsRoles: (command): boolean => command?.roles && !message.wasExecutedOnDm && !command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId)),
+		hasRequiredArgs: (command): boolean => message && message.commandArgs.length >= command?.requiredArgs
 	}
 }
 
@@ -83,7 +84,7 @@ export default function run(options: CommandHandlerParameters): any {
 
 	author.setCooldown();
 	
-	if (message && !message.hasRequiredArgs) {
+	if (checks.hasRequiredArgs()) {
 		return showCorrectSyntax();
 	}
 	
@@ -92,5 +93,5 @@ export default function run(options: CommandHandlerParameters): any {
 	const constructor = require(command.path);
 	const instance = constructor.default ? new constructor.default() : new constructor();
 
-	instance.execute({args: message.commandArgs, message, client, interaction});
+	instance.execute({args: message.commandArgs, message, client, interaction, say, showCorrectSyntax});
 }

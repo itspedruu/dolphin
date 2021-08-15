@@ -1,6 +1,5 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 import Extender from '../../structures/Extender';
-import {ExtendedMessage} from '../../util/Interfaces';
 
 module.exports = class extends Extender {
 	[x: string]: any;
@@ -11,20 +10,6 @@ module.exports = class extends Extender {
 		});
 
 		this.command = null;
-	}
-
-	say(text: string): ExtendedMessage {
-		return this.channel.send(
-			new MessageEmbed()
-				.setDescription(text)
-				.setColor(this.client.dolphinOptions.mainColor)
-				.setFooter(this.author.username, this.author.displayAvatarURL())
-				.setTimestamp()
-		);
-	}
-
-	showCorrectSyntax(): ExtendedMessage {
-		return this.say(`:white_check_mark: **Correct syntax:** \`${this.command.syntax}\``);
 	}
 
 	get userPageFooter(): string[] {
@@ -48,7 +33,7 @@ module.exports = class extends Extender {
 	}
 
 	get isBotMentioned(): boolean {
-		return this.args[0] == `<@${this.client.user.id}>` && this.client.dolphinOptions.mentionAsPrefix;
+		return this.args[0] == `<@${this.client.user?.id}>` && this.client.dolphinOptions.mentionAsPrefix;
 	}
 
 	get hasRequiredRoles(): boolean {
