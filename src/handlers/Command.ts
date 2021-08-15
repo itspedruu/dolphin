@@ -39,7 +39,7 @@ export default function run(options: CommandHandlerParameters): any {
 	}
 
 	const commandName = getCommandName(options);
-	const subCommandName = interaction?.options?.getSubCommand?.(false);
+	const subCommandName = interaction?.options?.getSubcommand?.(false);
 
 	const searchOptions = subCommandName ? {name: subCommandName, parent: commandName} : {name: commandName, commandArgs: message?.commandArgs};
 	const command = client.searchCommand(searchOptions);

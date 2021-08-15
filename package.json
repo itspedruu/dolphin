@@ -1,16 +1,16 @@
 {
   "name": "dolphin-discord",
-  "version": "4.0.10",
+  "version": "4.0.11",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
-    "compile": "rm -rf lib && tsc",
+    "compile": "rmdir /S /Q lib && tsc",
     "test": "jest",
     "docs": "docgen --source lib --output docs/docs.json"
   },
   "dependencies": {
-    "discord-interface": "^3.0.1",
-    "discord.js": "13.0.0-dev.4886ae2.1627300977"
+    "discord-interface": "^3.0.2",
+    "discord.js": "^13.1.0"
   },
   "devDependencies": {
     "@types/node": "^13.11.1",

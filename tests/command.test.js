@@ -2,8 +2,6 @@ const {Client} = require('../lib');
 const CommandHandler = require('../lib/handlers/Command');
 const util = require('./util');
 
-require('dotenv').config();
-
 const client = new Client({
 	commands: {
 		path: './tests/extra/commands',
