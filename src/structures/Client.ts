@@ -72,6 +72,10 @@ class DolphinClient extends Client {
 	}
 
 	async registerSlashCommands(): Promise<void> {
+		if (this.dolphinOptions.commands.autoRegisterSlashCommands === false) {
+			return;
+		}
+
 		const existsSlashCommands = (Object.values(this.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
 		
 		if (existsSlashCommands) {

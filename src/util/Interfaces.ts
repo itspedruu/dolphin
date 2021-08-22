@@ -20,6 +20,7 @@ export interface CommandsRegisterOptions {
 	cooldown?: number;
 	useDefaultCommandHandler?: boolean;
 	defaultCommand: string;
+	autoRegisterSlashCommands?: boolean;
 }
 
 export interface CommandOptions {
