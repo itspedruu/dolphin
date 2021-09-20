@@ -93,5 +93,5 @@ export default function run(options: CommandHandlerParameters): any {
 	const constructor = require(command.path);
 	const instance = constructor.default ? new constructor.default() : new constructor();
 
-	instance.execute({args: message.commandArgs, message, client, interaction, say, showCorrectSyntax});
+	instance.execute({args: message?.commandArgs, message, client, interaction, say, showCorrectSyntax});
 }
