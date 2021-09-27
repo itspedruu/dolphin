@@ -52,7 +52,7 @@ class DolphinClient extends Client {
 	searchCommand({name, parent, commandArgs}: CommandSearchOptions): CommandOptions {
 		const tempCommand = this.commands.find(command => 
 			(command.name == name || (command.aliases && command.aliases.includes(name)))
-			&& (parent ? command.parent === parent : true)
+			&& (parent ? command.parent === parent : !command.parent)
 		);
 
 		if (!tempCommand) {
@@ -64,7 +64,7 @@ class DolphinClient extends Client {
 			const subCommand = this.searchCommand({name: subCommandName, parent: name});
 
 			if (subCommand) {
-				return subCommand
+				return subCommand;
 			}
 		}
 
