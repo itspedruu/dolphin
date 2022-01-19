@@ -4,17 +4,15 @@ import { CommandHandlerParameters, ExtendedUser } from '../util/Interfaces';
 import util from '../util';
 
 export function getChecks({client, interaction, message}: CommandHandlerParameters): any {
-	const author = (interaction ? interaction.user : message.author) as ExtendedUser;
-	const member = interaction ? interaction.member : message.member;
-	const wasExecutedOnDm = !(interaction ? interaction.guild : message.guild);
+	const author = interaction.user as ExtendedUser;
+	const member = interaction.member;
+	const wasExecutedOnDm = !interaction.guild;
 
 	return {
 		isBotAccount: (): boolean => !client.dolphinOptions.allowBots && author.bot,
-		doesNotStartWithPrefix: (): boolean => !interaction && !message.isBotMentioned && !message.content.startsWith(client.dolphinOptions.prefix),
 		doesNotWorkWithDm: (command): boolean => !command?.worksWithDm && wasExecutedOnDm,
 		needsOwnerPermissions: (command): boolean => command.ownerOnly && !author.isOwner,
-		needsRoles: (command): boolean => command?.roles && !message.wasExecutedOnDm && !command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId)),
-		hasRequiredArgs: (command): boolean => message && message.commandArgs.length >= command?.requiredArgs
+		needsRoles: (command): boolean => command?.roles && !message.wasExecutedOnDm && !command?.roles?.some?.(roleId => (member.roles as GuildMemberRoleManager).cache.has(roleId))
 	}
 }
 
@@ -28,21 +26,20 @@ export function getCommandName({client, interaction, message}: CommandHandlerPar
 
 export default function run(options: CommandHandlerParameters): any {
 	const {client, interaction, message} = options;
-	const author = (interaction ? interaction.user : message.author) as ExtendedUser;
-	const guild = interaction ? interaction.guild : message.guild;
+
+	const author = interaction.user as ExtendedUser;
+	const guild = interaction.guild;
+
 	const checks = getChecks(options);
 
 	if (checks.isBotAccount()) {
-		return;
-	}
-	if (checks.doesNotStartWithPrefix()) {
 		return;
 	}
 
 	const commandName = getCommandName(options);
 	const subCommandName = interaction?.options?.getSubcommand?.(false);
 
-	const searchOptions = subCommandName ? {name: subCommandName, parent: commandName} : {name: commandName, commandArgs: message?.commandArgs};
+	const searchOptions = subCommandName ? {name: subCommandName, parent: commandName} : {name: commandName};
 	const command = client.searchCommand(searchOptions);
 	
 	if (!command) {
@@ -59,10 +56,6 @@ export default function run(options: CommandHandlerParameters): any {
 
 	if (checks.needsRoles(command)) {
 		return;
-	}
-	
-	if (command.deleteOriginalMessage && message) {
-		message.delete();
 	}
 
 	const say = (options: InteractionReplyOptions): Promise<void | Message> => interaction ? interaction.reply(options) : message.channel.send(options);
@@ -84,14 +77,10 @@ export default function run(options: CommandHandlerParameters): any {
 
 	author.setCooldown();
 	
-	if (checks.hasRequiredArgs()) {
-		return showCorrectSyntax();
-	}
-	
 	client.commandsExecuted++;
 	
 	const constructor = require(command.path);
 	const instance = constructor.default ? new constructor.default() : new constructor();
 
-	instance.execute({args: message?.commandArgs, message, client, interaction, say, showCorrectSyntax});
+	instance.execute({message, client, interaction, say, showCorrectSyntax});
 }

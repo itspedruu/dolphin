@@ -71,20 +71,22 @@ class DolphinClient extends Client {
 		return tempCommand;
 	}
 
-	async registerSlashCommands(): Promise<void> {
+	async registerSlashCommands(): Promise<any> {
 		if (this.dolphinOptions.commands.autoRegisterSlashCommands === false) {
 			return;
 		}
 
 		const existsSlashCommands = (Object.values(this.slashCommands).reduce((prev, cur) => (prev as any[]).concat(cur), []) as any[]).length > 0;
 		
-		if (existsSlashCommands) {
-			for (const key of Object.keys(this.slashCommands)) {
-				if (key === 'global') {
-					await this.application.commands.set(this.slashCommands.global);
-				} else {
-					await this.application.commands.set(this.slashCommands[key], key as Snowflake);
-				}
+		if (!existsSlashCommands) {
+			return await this.application.commands.set([]);
+		}
+
+		for (const key of Object.keys(this.slashCommands)) {
+			if (key === 'global') {
+				await this.application.commands.set(this.slashCommands.global);
+			} else {
+				await this.application.commands.set(this.slashCommands[key], key as Snowflake);
 			}
 		}
 	}
