@@ -1227,10 +1227,10 @@ discord-api-types@^0.26.0:
   resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.26.1.tgz#726f766ddc37d60da95740991d22cb6ef2ed787b"
   integrity sha512-T5PdMQ+Y1MEECYMV5wmyi9VEYPagEDEi4S0amgsszpWY0VB9JJ/hEvM6BgLhbdnKky4gfmZEXtEEtojN8ZKJQQ==
 
-discord-interface@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/discord-interface/-/discord-interface-3.0.5.tgz#915f9afeff1f3e3e42bd0bc615f87c8d8ba6f6bf"
-  integrity sha512-TlNWimXi/0r4SHlwHZWflS0vJ9ASad75JHOaKxi9AQCCEnmjhplDWcSnTLtEKY323Tb+9LfZp/uDfCOn1bhkDA==
+discord-interface@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/discord-interface/-/discord-interface-3.0.6.tgz#b79eaf33d88f6d875d02f51392e42841af595408"
+  integrity sha512-malwxPBgJ0qlPny/olbrhUrnufufkYffI5QZhrUeRMZQeWoaDKoSuqEsNwN3VK7qLrNXR88Il/a9T5qgD07gFA==
   dependencies:
     discord.js "^13.6.0"
 
